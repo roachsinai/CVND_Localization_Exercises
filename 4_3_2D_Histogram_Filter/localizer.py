@@ -1,5 +1,6 @@
 # import pdb
 from helpers import normalize, blur
+import numpy as np
 
 def initialize_beliefs(grid):
     height = len(grid)
@@ -15,13 +16,21 @@ def initialize_beliefs(grid):
     return beliefs
 
 def sense(color, grid, beliefs, p_hit, p_miss):
-    new_beliefs = []
+    new_beliefs = np.zeros_like(beliefs)
+    temp_beliefs = np.array(beliefs)
 
     #
     # TODO - implement this in part 2
     #
+    idx_hit = (np.array(grid) == color).astype(float)
+    idx_miss = (np.array(grid) != color).astype(float)
+    
+    new_beliefs = idx_hit * p_hit * temp_beliefs
+    new_beliefs += idx_miss * p_miss * temp_beliefs
+    
+    new_beliefs /= new_beliefs.sum()
 
-    return new_beliefs
+    return new_beliefs.tolist()
 
 def move(dy, dx, beliefs, blurring):
     height = len(beliefs)
