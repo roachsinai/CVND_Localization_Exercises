@@ -16,6 +16,8 @@ class Color(object):
         self.r = r
         
         ## TODO: Set the other two color variables g and b
+        self.g = g
+        self.b = b
         
 
     # __repr__ is called when a color is printed using print(some_color)
@@ -28,8 +30,31 @@ class Color(object):
         ## TODO: Write a string representation for the color
         ## ex. "rgb = [self.r, self.g, self.b]"
         ## Right now this returns an empty string
-        string = ''
+        string = 'Color of rgb({}, {}, {}).'.format(self.r, self.g, self.b)
         
         return string
+    
+    
+    def __add__(self, other):
+        ''' https://stackoverflow.com/a/726564/6074780
+        Additive Color Mixing: min(r1 + r2, 255)
+            Red + Black        = Red
+            Red + Green        = Yellow
+            Red + Green + Blue = White
+            Red + White        = White 
+            Black + White      = White
+        
+        Color Blending: (r1 + r2) / 2
+            Red + Black        = Dark Red
+            Red + Green        = Dark Yellow
+            Red + Green + Blue = Dark Gray
+            Red + White        = Pink
+            Black + White      = Gray
+        '''
+        r = min(self.r + other.r, 255)
+        g = min(self.g + other.g, 255)
+        b = min(self.b + other.b, 255)
+        
+        return Color(r, g, b)
     
     
